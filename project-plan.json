@@ -1,0 +1,356 @@
+{
+  "project": {
+    "name": "Kognitiver Dissonanz-Trainer",
+    "description": "Eine Next.js Web-App zum Training der kognitiven Kontrolle basierend auf dem Stroop-Effekt. Der Benutzer sieht Farbwörter in einer anderen Tintenfarbe und muss die TINTENFARBE identifizieren - nicht das Wort lesen.",
+    "scope": "Basis-Plan"
+  },
+  "techStack": {
+    "framework": "Next.js 14+ mit App Router",
+    "language": "TypeScript",
+    "styling": "Tailwind CSS + shadcn/ui",
+    "stateManagement": "Zustand (mit localStorage Persistenz)",
+    "animations": "Motion (Framer Motion)",
+    "charts": "Recharts"
+  },
+  "dependencies": {
+    "next": "^14.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "motion": "^11.0.0",
+    "zustand": "^4.5.0",
+    "recharts": "^2.10.0",
+    "lucide-react": "^0.300.0",
+    "clsx": "^2.1.0",
+    "tailwind-merge": "^2.2.0",
+    "class-variance-authority": "^0.7.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0",
+    "@types/react": "^18.2.0",
+    "@types/node": "^20.0.0",
+    "tailwindcss": "^3.4.0",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.0"
+  },
+  "projectStructure": {
+    "app": {
+      "layout.tsx": "Root Layout mit Providers",
+      "page.tsx": "Landing Page",
+      "globals.css": "Globale Styles",
+      "play": {
+        "page.tsx": "Haupt-Spielseite"
+      }
+    },
+    "components": {
+      "ui": "shadcn/ui Komponenten",
+      "game": {
+        "stroop-display.tsx": "Farbwort-Anzeige",
+        "color-buttons.tsx": "Antwort-Buttons",
+        "timer-display.tsx": "Echtzeit-Timer",
+        "score-panel.tsx": "Punkte & Streak",
+        "feedback-overlay.tsx": "Erfolg/Fehler Feedback",
+        "game-controls.tsx": "Start/Pause/Reset"
+      },
+      "stats": {
+        "stats-dashboard.tsx": "Statistik-Übersicht",
+        "reaction-chart.tsx": "Reaktionszeit-Diagramm"
+      }
+    },
+    "hooks": {
+      "use-stroop-game.ts": "Haupt-Spiellogik",
+      "use-timer.ts": "Präzisions-Timer"
+    },
+    "lib": {
+      "stroop-generator.ts": "Challenge-Generator",
+      "colors.ts": "Farb-Definitionen",
+      "statistics.ts": "Statistik-Berechnungen",
+      "utils.ts": "Hilfsfunktionen"
+    },
+    "stores": {
+      "game-store.ts": "Zustand Store"
+    },
+    "types": {
+      "game.ts": "TypeScript Types"
+    }
+  },
+  "gameLogic": {
+    "colors": {
+      "ROT": {
+        "displayName": "Rot",
+        "hexValue": "#EF4444",
+        "tailwindClass": "text-red-500",
+        "buttonClass": "bg-red-500 hover:bg-red-600"
+      },
+      "BLAU": {
+        "displayName": "Blau",
+        "hexValue": "#3B82F6",
+        "tailwindClass": "text-blue-500",
+        "buttonClass": "bg-blue-500 hover:bg-blue-600"
+      },
+      "GRUEN": {
+        "displayName": "Grün",
+        "hexValue": "#22C55E",
+        "tailwindClass": "text-green-500",
+        "buttonClass": "bg-green-500 hover:bg-green-600"
+      },
+      "GELB": {
+        "displayName": "Gelb",
+        "hexValue": "#EAB308",
+        "tailwindClass": "text-yellow-500",
+        "buttonClass": "bg-yellow-500 hover:bg-yellow-600"
+      },
+      "SCHWARZ": {
+        "displayName": "Schwarz",
+        "hexValue": "#1F2937",
+        "tailwindClass": "text-gray-800 dark:text-gray-200",
+        "buttonClass": "bg-gray-800 hover:bg-gray-900"
+      }
+    },
+    "generator": {
+      "description": "Erzeugt eine Challenge mit garantiertem Konflikt",
+      "constraint": "Wort und Tintenfarbe dürfen NIEMALS übereinstimmen",
+      "algorithm": [
+        "1. Wähle zufälliges Wort aus dem Farb-Set",
+        "2. Filtere das gewählte Wort aus den verfügbaren Tintenfarben",
+        "3. Wähle zufällige Tintenfarbe aus den verbleibenden Farben",
+        "4. Garantiert: word !== inkColor"
+      ]
+    },
+    "validation": {
+      "outcomes": [
+        {
+          "type": "success",
+          "condition": "userInput === inkColor",
+          "description": "Disziplin bewiesen - richtige Farbe erkannt",
+          "feedback": "Grün + Checkmark"
+        },
+        {
+          "type": "impulse_error",
+          "condition": "userInput === word",
+          "description": "Impuls-Fehler - das Wort gelesen statt die Farbe erkannt",
+          "feedback": "Orange + Warnung: 'Du hast das WORT gelesen!'"
+        },
+        {
+          "type": "wrong_choice",
+          "condition": "userInput !== inkColor && userInput !== word",
+          "description": "Falsche Wahl - weder Wort noch Farbe",
+          "feedback": "Rot + X"
+        }
+      ]
+    }
+  },
+  "types": {
+    "ColorName": "'ROT' | 'BLAU' | 'GRUEN' | 'GELB' | 'SCHWARZ'",
+    "StroopChallenge": {
+      "id": "string",
+      "word": "ColorName",
+      "inkColor": "ColorName",
+      "createdAt": "number"
+    },
+    "AnswerOutcome": "'success' | 'impulse_error' | 'wrong_choice'",
+    "RoundResult": {
+      "challenge": "StroopChallenge",
+      "selectedColor": "ColorName",
+      "outcome": "AnswerOutcome",
+      "reactionTimeMs": "number",
+      "timestamp": "number"
+    },
+    "GameStatus": "'idle' | 'countdown' | 'playing' | 'paused' | 'finished'",
+    "GameState": {
+      "status": "GameStatus",
+      "currentChallenge": "StroopChallenge | null",
+      "roundStartTime": "number | null",
+      "rounds": "RoundResult[]",
+      "currentStreak": "number",
+      "bestStreak": "number",
+      "totalRounds": "number",
+      "currentRoundNumber": "number"
+    },
+    "SessionStatistics": {
+      "totalRounds": "number",
+      "correctAnswers": "number",
+      "impulseErrors": "number",
+      "wrongChoices": "number",
+      "accuracyRate": "number",
+      "averageReactionTime": "number",
+      "fastestReactionTime": "number",
+      "slowestReactionTime": "number",
+      "longestStreak": "number",
+      "averageInterferenceCost": "number"
+    }
+  },
+  "implementationPhases": [
+    {
+      "phase": 1,
+      "name": "Projekt-Setup",
+      "steps": [
+        {
+          "step": 1,
+          "task": "Next.js 14 Projekt initialisieren mit TypeScript",
+          "command": "npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir=false --import-alias='@/*'"
+        },
+        {
+          "step": 2,
+          "task": "shadcn/ui installieren und einrichten",
+          "command": "npx shadcn@latest init"
+        },
+        {
+          "step": 3,
+          "task": "shadcn/ui Komponenten hinzufügen",
+          "command": "npx shadcn@latest add button card progress badge"
+        },
+        {
+          "step": 4,
+          "task": "Abhängigkeiten installieren",
+          "command": "npm install zustand motion recharts lucide-react"
+        }
+      ]
+    },
+    {
+      "phase": 2,
+      "name": "Kern-Typen & Utilities",
+      "steps": [
+        {
+          "step": 5,
+          "task": "Types definieren",
+          "file": "types/game.ts"
+        },
+        {
+          "step": 6,
+          "task": "Farb-Definitionen",
+          "file": "lib/colors.ts"
+        },
+        {
+          "step": 7,
+          "task": "Stroop-Generator mit Constraint",
+          "file": "lib/stroop-generator.ts"
+        }
+      ]
+    },
+    {
+      "phase": 3,
+      "name": "State Management",
+      "steps": [
+        {
+          "step": 8,
+          "task": "Zustand Store erstellen",
+          "file": "stores/game-store.ts"
+        },
+        {
+          "step": 9,
+          "task": "Timer Hook mit performance.now()",
+          "file": "hooks/use-timer.ts"
+        },
+        {
+          "step": 10,
+          "task": "Game Hook für Orchestrierung",
+          "file": "hooks/use-stroop-game.ts"
+        }
+      ]
+    },
+    {
+      "phase": 4,
+      "name": "UI Komponenten",
+      "steps": [
+        {
+          "step": 11,
+          "task": "Root Layout mit Theme Provider",
+          "file": "app/layout.tsx"
+        },
+        {
+          "step": 12,
+          "task": "Stroop Display Komponente",
+          "file": "components/game/stroop-display.tsx"
+        },
+        {
+          "step": 13,
+          "task": "Color Buttons Komponente",
+          "file": "components/game/color-buttons.tsx"
+        },
+        {
+          "step": 14,
+          "task": "Timer & Score Komponenten",
+          "files": ["components/game/timer-display.tsx", "components/game/score-panel.tsx"]
+        },
+        {
+          "step": 15,
+          "task": "Feedback Overlay Komponente",
+          "file": "components/game/feedback-overlay.tsx"
+        }
+      ]
+    },
+    {
+      "phase": 5,
+      "name": "Spiellogik Integration",
+      "steps": [
+        {
+          "step": 16,
+          "task": "Play Page mit Game Loop",
+          "file": "app/play/page.tsx"
+        }
+      ]
+    },
+    {
+      "phase": 6,
+      "name": "Statistiken",
+      "steps": [
+        {
+          "step": 17,
+          "task": "Statistik-Berechnungen",
+          "file": "lib/statistics.ts"
+        },
+        {
+          "step": 18,
+          "task": "Stats Dashboard Komponente",
+          "file": "components/stats/stats-dashboard.tsx"
+        }
+      ]
+    },
+    {
+      "phase": 7,
+      "name": "Polish",
+      "steps": [
+        {
+          "step": 19,
+          "task": "Animationen mit Motion hinzufügen"
+        },
+        {
+          "step": 20,
+          "task": "Dark Mode implementieren"
+        },
+        {
+          "step": 21,
+          "task": "Responsive Design optimieren"
+        }
+      ]
+    }
+  ],
+  "criticalFiles": [
+    { "order": 1, "file": "types/game.ts", "description": "Alle Type-Definitionen" },
+    { "order": 2, "file": "lib/colors.ts", "description": "Farb-Konfiguration" },
+    { "order": 3, "file": "lib/stroop-generator.ts", "description": "Challenge-Generator mit Constraint" },
+    { "order": 4, "file": "stores/game-store.ts", "description": "Zentraler State" },
+    { "order": 5, "file": "hooks/use-timer.ts", "description": "Präzisions-Timer" },
+    { "order": 6, "file": "components/game/stroop-display.tsx", "description": "Haupt-UI Element" },
+    { "order": 7, "file": "components/game/color-buttons.tsx", "description": "Eingabe-Interface" },
+    { "order": 8, "file": "app/play/page.tsx", "description": "Spielseite" }
+  ],
+  "codeTemplates": {
+    "stroopGenerator": {
+      "language": "typescript",
+      "code": "export function generateChallenge(previousChallenge?: StroopChallenge): StroopChallenge {\n  const colorNames: ColorName[] = ['ROT', 'BLAU', 'GRUEN', 'GELB', 'SCHWARZ'];\n  \n  // Wähle zufälliges Wort\n  let word: ColorName;\n  do {\n    word = colorNames[Math.floor(Math.random() * colorNames.length)];\n  } while (previousChallenge && word === previousChallenge.word);\n  \n  // Wähle Tintenfarbe die NICHT dem Wort entspricht\n  const availableColors = colorNames.filter(c => c !== word);\n  const inkColor = availableColors[Math.floor(Math.random() * availableColors.length)];\n  \n  return {\n    id: crypto.randomUUID(),\n    word,\n    inkColor,\n    createdAt: Date.now()\n  };\n}"
+    },
+    "validateAnswer": {
+      "language": "typescript",
+      "code": "export function validateAnswer(\n  challenge: StroopChallenge,\n  selectedColor: ColorName\n): AnswerOutcome {\n  if (selectedColor === challenge.inkColor) {\n    return 'success';\n  }\n  if (selectedColor === challenge.word) {\n    return 'impulse_error';\n  }\n  return 'wrong_choice';\n}"
+    }
+  },
+  "futureFeatures": [
+    "Sound-Effekte (Ton bei richtig/falsch)",
+    "Session-History Page (Liste aller vergangenen Sessions)",
+    "Einstellbare Runden-Anzahl (10, 20, 50 Runden)",
+    "Schwierigkeitsgrade",
+    "Leaderboard",
+    "Export der Statistiken"
+  ]
+}
