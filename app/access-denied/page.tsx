@@ -1,13 +1,14 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Brain, ShieldX, ExternalLink, ArrowLeft } from 'lucide-react';
+import { Brain, ShieldX, ExternalLink, ArrowLeft, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { createClient } from '@/lib/supabase/client';
 import { useSearchParams } from 'next/navigation';
 
-export default function AccessDeniedPage() {
+function AccessDeniedContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const reason = searchParams.get('reason');
@@ -107,5 +108,21 @@ export default function AccessDeniedPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+function LoadingFallback() {
+  return (
+    <div className="min-h-screen neural-bg grid-overlay flex items-center justify-center">
+      <Loader2 className="w-8 h-8 text-purple-400 animate-spin" />
+    </div>
+  );
+}
+
+export default function AccessDeniedPage() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <AccessDeniedContent />
+    </Suspense>
   );
 }

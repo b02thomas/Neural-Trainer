@@ -1,6 +1,9 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
+// Use Node.js runtime to support Supabase's realtime module
+export const runtime = 'nodejs';
+
 // Routes that require authentication and premium/admin access
 const protectedRoutes = ['/play', '/stats'];
 
