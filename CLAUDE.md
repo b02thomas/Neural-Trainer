@@ -71,7 +71,7 @@ Required in `.env.local`:
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 DISCORD_GUILD_ID=
-DISCORD_PREMIUM_ROLE_ID=
+DISCORD_PREMIUM_ROLE_IDS=   # Comma-separated list of role IDs (e.g., Seeker, Mentee)
 ```
 
 ## Testing

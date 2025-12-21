@@ -24,10 +24,10 @@ export async function verifyDiscordPremium(accessToken: string): Promise<{
   error?: string;
 }> {
   const guildId = process.env.DISCORD_GUILD_ID;
-  const premiumRoleId = process.env.DISCORD_PREMIUM_ROLE_ID;
+  const premiumRoleIds = process.env.DISCORD_PREMIUM_ROLE_IDS?.split(',') || [];
 
-  if (!guildId || !premiumRoleId) {
-    console.error('Discord guild ID or premium role ID not configured');
+  if (!guildId || premiumRoleIds.length === 0) {
+    console.error('Discord guild ID or premium role IDs not configured');
     return { isPremium: false, error: 'Server configuration error' };
   }
 
@@ -70,8 +70,8 @@ export async function verifyDiscordPremium(accessToken: string): Promise<{
 
     const member: DiscordGuildMember = await memberResponse.json();
 
-    // Check if user has the premium role
-    const hasPremiumRole = member.roles.includes(premiumRoleId);
+    // Check if user has any of the premium roles (Seeker or Mentee)
+    const hasPremiumRole = premiumRoleIds.some(roleId => member.roles.includes(roleId));
 
     return {
       isPremium: hasPremiumRole,
