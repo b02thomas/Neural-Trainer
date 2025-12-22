@@ -12,7 +12,8 @@ import {
   X,
   Activity,
   LogIn,
-  Shield
+  Shield,
+  Wind
 } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { UserMenu } from '@/components/auth/user-menu';
@@ -38,6 +39,12 @@ const navItems: NavItem[] = [
     href: '/play',
     icon: Brain,
     description: 'Start neural training session',
+  },
+  {
+    label: 'Meditation',
+    href: '/meditate',
+    icon: Wind,
+    description: 'Breathing & mindfulness exercises',
   },
   {
     label: 'Statistics',

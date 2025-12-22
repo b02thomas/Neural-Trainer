@@ -31,9 +31,29 @@ The app implements a cognitive training tool based on the Stroop Effect. The cri
 
 ### State Management
 
-Zustand store at `stores/game-store.ts`:
-- Game lifecycle: `idle` → `countdown` (3s) → `playing` → `paused` (feedback) → `finished`
-- Persists last 100 rounds + best streak to localStorage (key: `stroop-game-storage`)
+**Zustand stores with localStorage persistence:**
+
+| Store | Key | Purpose |
+|-------|-----|---------|
+| `stores/game-store.ts` | `stroop-game-storage` | Game lifecycle, last 100 rounds, best streak |
+| `stores/meditation-store.ts` | `meditation-storage` | Session history, preferences (pattern, duration, chime) |
+
+### Meditation Module
+
+Three meditation types with shared infrastructure:
+
+| Type | Route | Key Components |
+|------|-------|----------------|
+| Box Breathing | `/meditate/breathe` | `BreathingCircle`, `PhaseIndicator`, `PatternSelector` |
+| Body Scan | `/meditate/body-scan` | `BodySilhouette`, `RegionInfo`, `ScanProgress` |
+| Open Monitoring | `/meditate/open-monitoring` | `ThoughtCounter`, `ChimeSelector`, `MindfulnessDisplay` |
+
+**Timer architecture:** `hooks/use-meditation-timer.ts` uses `requestAnimationFrame` loop with type-specific update logic:
+- Breathing: Phase progression (inhale→hold→exhale→hold) with cycle counting
+- Body Scan: 15 regions, auto-progress based on session duration
+- Open Monitoring: Chime interval tracking
+
+**Audio:** `hooks/use-meditation-audio.ts` synthesizes sounds via Web Audio API (no external files).
 
 ### Key Files
 
@@ -42,8 +62,10 @@ Zustand store at `stores/game-store.ts`:
 | `lib/stroop-generator.ts` | Challenge generation with word≠ink constraint |
 | `hooks/use-timer.ts` | High-precision timer using `performance.now()` |
 | `hooks/use-stroop-game.ts` | Orchestrates game store + timer |
+| `hooks/use-meditation-timer.ts` | RAF-based meditation timer with type-specific logic |
 | `stores/game-store.ts` | Zustand store with persistence |
 | `types/game.ts` | TypeScript definitions (ColorName, StroopChallenge, etc.) |
+| `types/meditation.ts` | Meditation types, body regions (15), breathing patterns |
 
 ### Authentication
 
@@ -57,6 +79,11 @@ Zustand store at `stores/game-store.ts`:
 ```
 components/
 ├── game/           # StroopDisplay, ColorButtons, TimerDisplay, FeedbackOverlay
+├── meditation/
+│   ├── breathing/      # BreathingCircle, PhaseIndicator, PatternSelector
+│   ├── body-scan/      # BodySilhouette, RegionInfo, ScanProgress
+│   ├── open-monitoring/ # ChimeSelector, ThoughtCounter, MindfulnessDisplay
+│   └── shared/         # SessionSelector, MeditationCountdown, SessionComplete
 ├── ui/             # Base components (Button, Card, Progress) - shadcn pattern
 ├── navigation/     # MegaMenu
 ├── landing/        # Hero components

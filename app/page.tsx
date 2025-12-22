@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { motion } from 'motion/react';
 import { Button } from '@/components/ui/button';
-import { Brain, Target, Zap, BarChart3, Sparkles, ChevronRight } from 'lucide-react';
+import { Brain, Target, Zap, BarChart3, Sparkles, ChevronRight, Wind, Heart, Activity, Flame, Eye } from 'lucide-react';
 import { MegaMenu, MegaMenuSpacer } from '@/components/navigation';
 import { HeroCard, HeroTitle, HeroSubtitle, HeroGradientText } from '@/components/landing/hero-card';
 import { ActivityFeed } from '@/components/landing/activity-feed';
@@ -103,10 +103,10 @@ export default function HomePage() {
                 iconColor="purple"
               />
               <ActionCard
-                icon={Target}
-                title="Focus Mode"
-                description="Enhance concentration"
-                href="/play"
+                icon={Wind}
+                title="Meditation"
+                description="Breathe & focus"
+                href="/meditate"
                 iconColor="cyan"
               />
               <ActionCard
@@ -209,13 +209,102 @@ export default function HomePage() {
             </div>
           </motion.div>
 
+          {/* Meditation Preview Section */}
+          <motion.div variants={fadeInUp} transition={{ duration: 0.6 }}>
+            <div className="bento-card p-8 md:p-10">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-2 rounded-xl bg-cyan-500/10">
+                  <Wind className="w-6 h-6 text-cyan-400" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold">Mindful Training</h2>
+                  <p className="text-muted-foreground text-sm">Complement your cognitive training with meditation</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                {[
+                  { icon: Wind, color: 'cyan', title: 'Breathing', desc: 'Box breathing & 4-7-8 patterns for relaxation' },
+                  { icon: Heart, color: 'purple', title: 'Body Scan', desc: '15-region guided body awareness meditation' },
+                  { icon: Activity, color: 'green', title: 'Open Monitoring', desc: 'Mindfulness practice with thought tracking' }
+                ].map((item) => (
+                  <div
+                    key={item.title}
+                    className="bento-card p-5 text-center"
+                  >
+                    <div className={`p-3 rounded-xl mb-4 inline-flex ${
+                      item.color === 'cyan' ? 'bg-cyan-500/10' :
+                      item.color === 'purple' ? 'bg-purple-500/10' : 'bg-green-500/10'
+                    }`}>
+                      <item.icon className={`w-6 h-6 ${
+                        item.color === 'cyan' ? 'text-cyan-400' :
+                        item.color === 'purple' ? 'text-purple-400' : 'text-green-400'
+                      }`} />
+                    </div>
+                    <h3 className="font-semibold mb-2">{item.title}</h3>
+                    <p className="text-sm text-muted-foreground">{item.desc}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="text-center">
+                <Link href="/meditate">
+                  <Button variant="outline" className="glass-card border-white/10 hover:border-cyan-500/30">
+                    <Wind className="w-4 h-4 mr-2" />
+                    Explore Meditation
+                    <ChevronRight className="w-4 h-4 ml-1" />
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Cognitive Benefits Section */}
+          <motion.div variants={fadeInUp} transition={{ duration: 0.6 }}>
+            <div className="bento-card p-8 md:p-10">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-2 rounded-xl bg-purple-500/10 glow-purple">
+                  <Sparkles className="w-6 h-6 text-purple-400" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold">Cognitive Benefits</h2>
+                  <p className="text-muted-foreground text-sm">What regular training can do for your brain</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {[
+                  { icon: Target, color: 'cyan', title: 'Improved Focus', desc: 'Enhanced concentration and attention span' },
+                  { icon: Zap, color: 'purple', title: 'Faster Reactions', desc: 'Reduced response time in decisions' },
+                  { icon: Flame, color: 'cyan', title: 'Stress Reduction', desc: 'Calmer mind through mindfulness' },
+                  { icon: Eye, color: 'purple', title: 'Mental Clarity', desc: 'Better cognitive control' }
+                ].map((item) => (
+                  <div
+                    key={item.title}
+                    className="bento-card p-5 text-center"
+                  >
+                    <div className={`p-3 rounded-xl mb-4 inline-flex ${
+                      item.color === 'cyan' ? 'bg-cyan-500/10' : 'bg-purple-500/10'
+                    }`}>
+                      <item.icon className={`w-6 h-6 ${
+                        item.color === 'cyan' ? 'text-cyan-400' : 'text-purple-400'
+                      }`} />
+                    </div>
+                    <h3 className="font-semibold mb-2">{item.title}</h3>
+                    <p className="text-sm text-muted-foreground">{item.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
           {/* Final CTA */}
           <motion.div
-            className="text-center space-y-6"
+            className="text-center py-8"
             variants={fadeInUp}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold">
+            <h2 className="text-3xl md:text-4xl font-bold mb-8">
               Ready for the Challenge?
             </h2>
             <Link href="/play">

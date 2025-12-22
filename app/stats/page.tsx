@@ -1,15 +1,28 @@
 'use client';
 
+import { useCallback } from 'react';
 import { useGameStore } from '@/stores/game-store';
+import { useTrainingSync } from '@/hooks/use-training-sync';
 import { StatsDashboard } from '@/components/stats/stats-dashboard';
 import { Button } from '@/components/ui/button';
-import { Play, Brain } from 'lucide-react';
+import { Play, Brain, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { MegaMenu, MegaMenuSpacer } from '@/components/navigation';
 import { motion } from 'motion/react';
+import type { RoundResult } from '@/types/game';
 
 export default function StatsPage() {
   const rounds = useGameStore((state) => state.rounds);
+  const loadHistoricalData = useGameStore((state) => state.loadHistoricalData);
+
+  // Load data from Supabase when authenticated
+  const onStroopDataLoaded = useCallback((loadedRounds: RoundResult[], bestStreak: number) => {
+    loadHistoricalData(loadedRounds, bestStreak);
+  }, [loadHistoricalData]);
+
+  const { isLoading, isAuthenticated } = useTrainingSync({
+    onStroopDataLoaded,
+  });
 
   return (
     <div className="min-h-screen neural-bg grid-overlay">
@@ -32,7 +45,16 @@ export default function StatsPage() {
             </p>
           </motion.div>
 
-          {rounds.length > 0 ? (
+          {isLoading ? (
+            <motion.div
+              className="bento-card text-center py-16 space-y-6"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+            >
+              <Loader2 className="w-12 h-12 text-purple-400 animate-spin mx-auto" />
+              <p className="text-muted-foreground">Loading your statistics...</p>
+            </motion.div>
+          ) : rounds.length > 0 ? (
             <StatsDashboard rounds={rounds} />
           ) : (
             <motion.div
@@ -47,7 +69,9 @@ export default function StatsPage() {
                 No Data Available
               </h2>
               <p className="text-muted-foreground max-w-md mx-auto">
-                Complete a few training sessions to see your performance statistics and track your improvement.
+                {isAuthenticated
+                  ? 'Complete a few training sessions to see your performance statistics and track your improvement.'
+                  : 'Sign in to track your progress across sessions, or play a game to see stats for this session.'}
               </p>
               <div className="pt-4">
                 <Link href="/play">
