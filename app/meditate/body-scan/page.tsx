@@ -59,10 +59,14 @@ export default function BodyScanPage() {
     resetSession();
   };
 
-  // Stop binaural when session ends
+  // Handle binaural beats based on session status
   useEffect(() => {
     if (status === 'idle' || status === 'completed') {
       audio.stopBinauralBeat();
+    } else if (status === 'paused') {
+      audio.muteBinauralBeat();
+    } else if (status === 'active') {
+      audio.unmuteBinauralBeat();
     }
   }, [status, audio]);
 

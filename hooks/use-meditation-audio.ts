@@ -230,6 +230,30 @@ export function useMeditationAudio(options: UseMeditationAudioOptions = {}) {
     }, 1100);
   }, []);
 
+  // Mute binaural beat (for pause)
+  const muteBinauralBeat = useCallback(() => {
+    const nodes = binauralNodesRef.current;
+    const ctx = audioContextRef.current;
+    if (!nodes || !ctx) return;
+
+    // Fade to 0 over 0.1 seconds for smooth transition
+    const now = ctx.currentTime;
+    nodes.leftGain.gain.setTargetAtTime(0, now, 0.1);
+    nodes.rightGain.gain.setTargetAtTime(0, now, 0.1);
+  }, []);
+
+  // Unmute binaural beat (for resume)
+  const unmuteBinauralBeat = useCallback(() => {
+    const nodes = binauralNodesRef.current;
+    const ctx = audioContextRef.current;
+    if (!nodes || !ctx) return;
+
+    // Fade back to volume over 0.1 seconds
+    const now = ctx.currentTime;
+    nodes.leftGain.gain.setTargetAtTime(binauralVolumeRef.current, now, 0.1);
+    nodes.rightGain.gain.setTargetAtTime(binauralVolumeRef.current, now, 0.1);
+  }, []);
+
   // Set binaural beat volume
   const setBinauralVolume = useCallback((newVolume: number) => {
     binauralVolumeRef.current = newVolume;
@@ -286,6 +310,8 @@ export function useMeditationAudio(options: UseMeditationAudioOptions = {}) {
     warmUp,
     startBinauralBeat,
     stopBinauralBeat,
+    muteBinauralBeat,
+    unmuteBinauralBeat,
     setBinauralVolume,
     isBinauralPlaying,
   };
