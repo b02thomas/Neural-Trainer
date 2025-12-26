@@ -5,7 +5,7 @@ import { NextResponse, type NextRequest } from 'next/server';
 export const runtime = 'nodejs';
 
 // Routes that require authentication and premium/admin access
-const protectedRoutes = ['/play', '/stats'];
+const protectedRoutes = ['/play', '/stats', '/reset', '/coach'];
 
 // Routes that require admin access only
 const adminRoutes = ['/admin'];

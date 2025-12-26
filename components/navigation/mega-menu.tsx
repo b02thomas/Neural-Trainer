@@ -13,7 +13,9 @@ import {
   Activity,
   LogIn,
   Shield,
-  Wind
+  Wind,
+  RefreshCw,
+  MessageCircle,
 } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { UserMenu } from '@/components/auth/user-menu';
@@ -45,6 +47,18 @@ const navItems: NavItem[] = [
     href: '/meditate',
     icon: Wind,
     description: 'Breathing & mindfulness exercises',
+  },
+  {
+    label: 'Reset',
+    href: '/reset',
+    icon: RefreshCw,
+    description: 'Trader recovery tools',
+  },
+  {
+    label: 'Coach',
+    href: '/coach',
+    icon: MessageCircle,
+    description: 'AI psychology coach',
   },
   {
     label: 'Statistics',

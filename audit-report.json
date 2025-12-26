@@ -1,0 +1,414 @@
+{
+  "auditDate": "2025-12-26",
+  "projectName": "Neural Trainer - Trading Psychology Platform",
+  "overallCompletion": "55%",
+
+  "modules": {
+    "reset": {
+      "name": "Reset/Recovery Tools",
+      "completion": "65%",
+      "route": "/reset",
+      "features": {
+        "complete": [
+          {
+            "name": "Reset Hub",
+            "route": "/reset",
+            "description": "Navigation to all reset tools"
+          },
+          {
+            "name": "5-4-3-2-1 Grounding",
+            "route": "/reset/quick/grounding",
+            "description": "Sensory grounding exercise with full emotional tracking"
+          },
+          {
+            "name": "Grounding Questions",
+            "route": "/reset/quick/questions",
+            "description": "Self-awareness question carousel with emotional tracking"
+          },
+          {
+            "name": "Trading Rules",
+            "route": "/reset/rules",
+            "description": "CRUD for personal trading rules with categories"
+          },
+          {
+            "name": "Checklist Hub",
+            "route": "/reset/checklist",
+            "description": "Tab navigation for all checklist types"
+          },
+          {
+            "name": "Pre-Trade Checklist",
+            "route": "/reset/checklist/pre-trade",
+            "description": "Full execution flow with completion tracking"
+          },
+          {
+            "name": "Cooldown Timer",
+            "route": "/reset/cooldown",
+            "description": "Forced break timer with suggested activities"
+          },
+          {
+            "name": "Session History",
+            "route": "/reset/history",
+            "description": "View past reset sessions"
+          }
+        ],
+        "partial": [
+          {
+            "name": "Perspective Shift",
+            "route": "/reset/quick/perspective",
+            "description": "Time perspective prompts",
+            "missing": ["Emotional state tracking before/after"]
+          },
+          {
+            "name": "Physical Reset",
+            "route": "/reset/quick/physical",
+            "description": "Stretch and eye break prompts",
+            "missing": ["Emotional state tracking before/after"]
+          }
+        ],
+        "missing": [
+          {
+            "name": "Quick Breathing",
+            "route": "/reset/quick/breathing",
+            "description": "Quick 60-second breathing exercise",
+            "priority": "high"
+          },
+          {
+            "name": "Post-Loss Checklist",
+            "route": "/reset/checklist/post-loss",
+            "description": "Checklist execution page for post-loss review",
+            "priority": "high"
+          },
+          {
+            "name": "Post-Win Checklist",
+            "route": "/reset/checklist/post-win",
+            "description": "Checklist execution page for post-win review",
+            "priority": "medium"
+          }
+        ]
+      }
+    },
+
+    "coach": {
+      "name": "AI Psychology Coach",
+      "completion": "50%",
+      "route": "/coach",
+      "features": {
+        "complete": [
+          {
+            "name": "Onboarding Wizard",
+            "route": "/coach/onboarding",
+            "description": "Focus area selection, coaching style preference"
+          },
+          {
+            "name": "Chat Interface",
+            "route": "/coach/chat",
+            "description": "Real-time streaming chat with AI coach"
+          },
+          {
+            "name": "Coach Hub",
+            "route": "/coach",
+            "description": "Conversation list and new chat button"
+          },
+          {
+            "name": "API Route",
+            "route": "/api/coach/chat",
+            "description": "OpenRouter SSE streaming endpoint"
+          }
+        ],
+        "partial": [
+          {
+            "name": "Model Selection",
+            "description": "Model preference saved but not used",
+            "missing": ["API route uses hardcoded model instead of preference"]
+          }
+        ],
+        "missing": [
+          {
+            "name": "Conversation Persistence",
+            "description": "Conversations lost on page refresh",
+            "priority": "critical"
+          },
+          {
+            "name": "Emotion Logging UI",
+            "description": "No interface to log emotions during/after chat",
+            "priority": "high"
+          },
+          {
+            "name": "Analytics Dashboard",
+            "route": "/coach/insights",
+            "description": "Emotion trends, patterns, insights visualization",
+            "priority": "medium"
+          },
+          {
+            "name": "Journal Search",
+            "route": "/coach/journal",
+            "description": "Search and filter past conversations",
+            "priority": "low"
+          }
+        ]
+      }
+    },
+
+    "meditation": {
+      "name": "Meditation Module",
+      "completion": "90%",
+      "route": "/meditate",
+      "features": {
+        "complete": [
+          {
+            "name": "Box Breathing",
+            "route": "/meditate/breathe",
+            "description": "Multiple patterns, visual guide, audio cues"
+          },
+          {
+            "name": "Body Scan",
+            "route": "/meditate/body-scan",
+            "description": "15 body regions, guided progression"
+          },
+          {
+            "name": "Open Monitoring",
+            "route": "/meditate/open-monitoring",
+            "description": "Thought counter, mindfulness bell chimes"
+          }
+        ],
+        "partial": [
+          {
+            "name": "Session History",
+            "description": "Store tracks sessions but no persistence",
+            "missing": ["localStorage persistence"]
+          }
+        ],
+        "missing": []
+      }
+    },
+
+    "stroopGame": {
+      "name": "Stroop Test Game",
+      "completion": "95%",
+      "route": "/play",
+      "features": {
+        "complete": [
+          {
+            "name": "Core Game",
+            "route": "/play",
+            "description": "Stroop test with word≠inkColor constraint"
+          },
+          {
+            "name": "Color Unlock System",
+            "description": "Progressive color unlocks at streak milestones"
+          },
+          {
+            "name": "Statistics",
+            "route": "/stats",
+            "description": "Performance charts and history"
+          }
+        ],
+        "partial": [
+          {
+            "name": "Data Persistence",
+            "description": "Store exists but missing persist middleware",
+            "missing": ["localStorage persistence"]
+          }
+        ],
+        "missing": []
+      }
+    }
+  },
+
+  "criticalIssues": [
+    {
+      "id": "CRIT-001",
+      "severity": "critical",
+      "title": "Data Loss on Page Refresh",
+      "description": "All Zustand stores lack persist middleware - user data is lost on refresh",
+      "affectedFiles": [
+        "stores/reset-store.ts",
+        "stores/coach-store.ts",
+        "stores/meditation-store.ts",
+        "stores/game-store.ts"
+      ],
+      "fix": "Add zustand/middleware persist() wrapper to all stores",
+      "effort": "2-3 hours"
+    },
+    {
+      "id": "CRIT-002",
+      "severity": "high",
+      "title": "Hardcoded AI Model",
+      "description": "Coach uses hardcoded 'anthropic/claude-3.5-sonnet' instead of user preference",
+      "affectedFiles": [
+        "app/api/coach/chat/route.ts",
+        "hooks/use-coach-chat.ts"
+      ],
+      "fix": "Pass model from coach-store preferences to API",
+      "effort": "30 minutes"
+    },
+    {
+      "id": "CRIT-003",
+      "severity": "medium",
+      "title": "No Error Handling in Chat",
+      "description": "Stream errors fail silently with no user feedback or retry",
+      "affectedFiles": [
+        "hooks/use-coach-chat.ts"
+      ],
+      "fix": "Add error state, user-friendly messages, retry button",
+      "effort": "1-2 hours"
+    }
+  ],
+
+  "integrationStatus": {
+    "completion": "20%",
+    "description": "Modules are siloed with no cross-feature workflows",
+    "missingIntegrations": [
+      {
+        "from": "Reset",
+        "to": "Coach",
+        "description": "After reset completion, offer 'Talk to coach about this'"
+      },
+      {
+        "from": "Coach",
+        "to": "Reset",
+        "description": "Coach detects distress and suggests appropriate reset tool"
+      },
+      {
+        "from": "Reset",
+        "to": "Meditation",
+        "description": "After cooldown, suggest meditation session"
+      },
+      {
+        "from": "All Modules",
+        "to": "Analytics",
+        "description": "Unified emotional tracking dashboard across all features"
+      }
+    ]
+  },
+
+  "psychologyEnhancements": {
+    "currentStrengths": [
+      "Evidence-based techniques (5-4-3-2-1 grounding, box breathing)",
+      "Trigger classification (Loss, FOMO, Revenge Trading, Overtrading)",
+      "Emotional state before/after tracking where implemented",
+      "Trading-specific focus areas and coaching prompts"
+    ],
+    "suggestedImprovements": [
+      {
+        "name": "Cognitive Patterns Library",
+        "description": "Add common cognitive distortions for traders, AI pattern detection",
+        "priority": "medium"
+      },
+      {
+        "name": "Behavioral Tracking",
+        "description": "Track which tools work best for which triggers, personalized suggestions",
+        "priority": "high"
+      },
+      {
+        "name": "Proactive Interventions",
+        "description": "Time-based check-ins, pattern alerts, cooldown suggestions",
+        "priority": "medium"
+      },
+      {
+        "name": "Structured Journaling",
+        "description": "Pre/post trade journal templates with AI analysis",
+        "priority": "low"
+      },
+      {
+        "name": "Accountability Features",
+        "description": "Daily intentions, end-of-day reviews, weekly summaries",
+        "priority": "low"
+      }
+    ]
+  },
+
+  "implementationPriority": [
+    {
+      "phase": 1,
+      "name": "Fix Critical Data Loss",
+      "tasks": [
+        "Add persist middleware to reset-store.ts",
+        "Add persist middleware to coach-store.ts",
+        "Add persist middleware to meditation-store.ts",
+        "Add persist middleware to game-store.ts",
+        "Test data survives page refresh"
+      ],
+      "priority": "critical"
+    },
+    {
+      "phase": 2,
+      "name": "Complete Reset Module",
+      "tasks": [
+        "Build Quick Breathing exercise at /reset/quick/breathing",
+        "Build post-loss checklist execution page",
+        "Build post-win checklist execution page",
+        "Add emotional tracking to Physical Reset",
+        "Add emotional tracking to Perspective Shift"
+      ],
+      "priority": "high"
+    },
+    {
+      "phase": 3,
+      "name": "Coach Improvements",
+      "tasks": [
+        "Use model from preferences instead of hardcoded",
+        "Add emotion logging UI in chat",
+        "Implement error handling with retry",
+        "Add loading states and user feedback"
+      ],
+      "priority": "high"
+    },
+    {
+      "phase": 4,
+      "name": "Analytics Foundation",
+      "tasks": [
+        "Build /coach/insights page structure",
+        "Implement emotion trend chart with recharts",
+        "Add trigger frequency visualization",
+        "Create pattern insight cards"
+      ],
+      "priority": "medium"
+    },
+    {
+      "phase": 5,
+      "name": "Deep Integration",
+      "tasks": [
+        "Cross-module navigation flows",
+        "AI pattern detection from conversations",
+        "Proactive intervention suggestions",
+        "Unified analytics dashboard"
+      ],
+      "priority": "low"
+    }
+  ],
+
+  "technicalDebt": [
+    {
+      "area": "State Management",
+      "issue": "No persistence layer",
+      "impact": "User loses all progress on refresh"
+    },
+    {
+      "area": "Error Handling",
+      "issue": "Minimal error boundaries and user feedback",
+      "impact": "Poor UX when things fail"
+    },
+    {
+      "area": "Type Safety",
+      "issue": "Some any types in coach components",
+      "impact": "Potential runtime errors"
+    },
+    {
+      "area": "Testing",
+      "issue": "Only Stroop generator has tests",
+      "impact": "Regressions may go unnoticed"
+    }
+  ],
+
+  "environmentVariables": {
+    "required": [
+      "NEXT_PUBLIC_SUPABASE_URL",
+      "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+      "DISCORD_GUILD_ID",
+      "DISCORD_PREMIUM_ROLE_IDS",
+      "OPENROUTER_API_KEY"
+    ],
+    "configured": true
+  }
+}
