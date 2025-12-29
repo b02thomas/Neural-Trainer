@@ -85,7 +85,7 @@ export const useGameStore = create<GameStore>()(
         // Add round result to history
         const newRounds = [...state.rounds, roundResult];
 
-        // Check for milestone - unlock new color and shuffle
+        // Check for milestone - unlock new color and shuffle (only if not already unlocked)
         let newActiveColors = state.activeColors;
         let newButtonOrder = state.buttonOrder;
 
@@ -93,8 +93,11 @@ export const useGameStore = create<GameStore>()(
           const milestoneIndex = UNLOCK_MILESTONES.indexOf(newStreak);
           if (milestoneIndex < EXTRA_COLORS.length) {
             const newColor = EXTRA_COLORS[milestoneIndex];
-            newActiveColors = [...state.activeColors, newColor];
-            newButtonOrder = shuffleArray(newActiveColors);
+            // Prevent duplicates - only add if color not already active
+            if (!state.activeColors.includes(newColor)) {
+              newActiveColors = [...state.activeColors, newColor];
+              newButtonOrder = shuffleArray(newActiveColors);
+            }
           }
         }
 
