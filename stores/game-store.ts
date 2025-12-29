@@ -7,7 +7,7 @@ import { shuffleArray } from '@/lib/colors';
 interface GameStore extends GameState {
   // Actions
   startGame: (totalRounds?: number) => void;
-  submitAnswer: (selectedColor: ColorName, reactionTimeMs: number) => void;
+  submitAnswer: (selectedColor: ColorName | null, reactionTimeMs: number) => void;
   nextRound: () => void;
   pauseGame: () => void;
   resetGame: () => void;
@@ -58,14 +58,16 @@ export const useGameStore = create<GameStore>()(
       },
 
       // Submit an answer for the current challenge
-      submitAnswer: (selectedColor: ColorName, reactionTimeMs: number) => {
+      submitAnswer: (selectedColor: ColorName | null, reactionTimeMs: number) => {
         const state = get();
         if (state.status !== 'playing' || !state.currentChallenge) {
           return;
         }
 
-        // Validate the answer
-        const outcome = validateAnswer(state.currentChallenge, selectedColor);
+        // Determine outcome - timeout if no color selected
+        const outcome = selectedColor === null
+          ? 'timeout'
+          : validateAnswer(state.currentChallenge, selectedColor);
 
         // Create round result
         const roundResult: RoundResult = {

@@ -1,4 +1,4 @@
-import { AlertTriangle, X, Zap } from 'lucide-react';
+import { AlertTriangle, Clock, X, Zap } from 'lucide-react';
 import { AnswerOutcome } from '@/types/game';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
@@ -34,6 +34,14 @@ export function FeedbackOverlay({ outcome, show, className }: FeedbackOverlayPro
       border: 'border-red-500/50',
       message: 'INCORRECT',
       description: 'Recalibrating...',
+    },
+    timeout: {
+      icon: Clock,
+      color: 'text-red-400',
+      glow: 'rgba(239, 68, 68, 0.5)',
+      border: 'border-red-500/50',
+      message: "TIME'S UP!",
+      description: 'Too slow - streak reset',
     },
   };
 

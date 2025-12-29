@@ -27,12 +27,12 @@ export interface StroopChallenge {
 }
 
 // Answer outcome types
-export type AnswerOutcome = 'success' | 'impulse_error' | 'wrong_choice';
+export type AnswerOutcome = 'success' | 'impulse_error' | 'wrong_choice' | 'timeout';
 
 // Result of a single round
 export interface RoundResult {
   challenge: StroopChallenge;
-  selectedColor: ColorName;
+  selectedColor: ColorName | null;  // null when timeout
   outcome: AnswerOutcome;
   reactionTimeMs: number;
   timestamp: number;

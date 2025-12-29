@@ -8,6 +8,7 @@ import { ColorButtons } from '@/components/game/color-buttons';
 import { TimerDisplay } from '@/components/game/timer-display';
 import { FeedbackOverlay } from '@/components/game/feedback-overlay';
 import { GameControls, Countdown } from '@/components/game/game-controls';
+import { SpeedBadge } from '@/components/game/speed-badge';
 import { Button } from '@/components/ui/button';
 import { Brain, Zap, Activity } from 'lucide-react';
 import Link from 'next/link';
@@ -129,11 +130,14 @@ export default function PlayPage() {
                   </div>
                 </div>
 
-                {/* Streak */}
+                {/* Streak + Speed */}
                 <div className="glass-card rounded-xl p-4">
-                  <div className="flex items-center gap-2 text-white/50 text-xs mb-1">
-                    <Zap className="w-3 h-3 text-purple-500" />
-                    STREAK
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center gap-2 text-white/50 text-xs">
+                      <Zap className="w-3 h-3 text-purple-500" />
+                      STREAK
+                    </div>
+                    <SpeedBadge speedLevel={game.speedLevel} />
                   </div>
                   <div className={cn(
                     "text-2xl font-bold font-mono",
@@ -280,12 +284,14 @@ export default function PlayPage() {
                       </motion.div>
                     )}
 
-                    {/* Timer */}
+                    {/* Timer - Countdown Mode */}
                     {game.status === 'playing' && (
                       <div className="mt-6 flex justify-center">
                         <TimerDisplay
                           elapsedTime={game.elapsedTime}
                           isRunning={game.isTimerRunning}
+                          timeoutMs={game.timeoutMs}
+                          timeRemaining={game.timeRemaining}
                         />
                       </div>
                     )}
