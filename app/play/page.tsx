@@ -193,7 +193,7 @@ export default function PlayPage() {
                       Train your neural pathways to override automatic responses.
                     </p>
                     <Button
-                      onClick={() => game.startGame(20)}
+                      onClick={() => game.startGame(30)}
                       size="lg"
                       className="bg-purple-600 hover:bg-purple-500 text-white px-12 py-6 text-lg glow-purple"
                     >
@@ -235,7 +235,7 @@ export default function PlayPage() {
 
                     <div className="flex gap-3 justify-center">
                       <Button
-                        onClick={() => game.startGame(20)}
+                        onClick={() => game.startGame(30)}
                         size="lg"
                         className="bg-purple-600 hover:bg-purple-500 text-white px-8"
                       >
@@ -313,7 +313,7 @@ export default function PlayPage() {
             {/* Game Controls */}
             <GameControls
               status={game.status}
-              onStart={() => game.startGame(20)}
+              onStart={() => game.startGame(30)}
               onPause={game.pauseGame}
               onReset={game.resetGame}
             />

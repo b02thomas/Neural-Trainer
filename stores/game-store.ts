@@ -14,7 +14,7 @@ interface GameStore extends GameState {
   resumeGame: () => void;
 }
 
-const DEFAULT_TOTAL_ROUNDS = 20;
+const DEFAULT_TOTAL_ROUNDS = 30;
 
 export const useGameStore = create<GameStore>()(
   persist(
