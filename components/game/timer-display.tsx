@@ -29,7 +29,7 @@ export function TimerDisplay({
 
   // Calculate color based on time remaining percentage
   const getColorClass = () => {
-    if (!isRunning) return 'text-white/40';
+    if (!isRunning) return 'text-muted-foreground';
     if (!isCountdownMode) return 'text-cyan-400';
 
     const percentRemaining = (timeRemaining! / timeoutMs!) * 100;
@@ -67,7 +67,7 @@ export function TimerDisplay({
       <Clock className={cn("w-4 h-4", colorClass)} />
       <span className={cn("font-mono text-lg tabular-nums", colorClass)}>
         {formatTime(displayTime)}
-        <span className="text-sm text-white/30">s</span>
+        <span className="text-sm text-muted-foreground">s</span>
       </span>
     </div>
   );

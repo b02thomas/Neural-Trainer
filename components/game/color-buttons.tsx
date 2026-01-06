@@ -79,14 +79,14 @@ export function ColorButtons({ onColorSelect, buttonOrder, disabled = false, cla
                 disabled={disabled}
                 className={cn(
                   "relative h-16 md:h-20 rounded-xl font-semibold transition-all duration-200",
-                  "border border-white/10",
+                  "border border-foreground/10",
                   "focus:outline-none focus:ring-2 focus:ring-purple-500/50",
                   disabled
-                    ? "opacity-40 cursor-not-allowed bg-white/5"
-                    : "cursor-pointer hover:border-white/30"
+                    ? "opacity-40 cursor-not-allowed bg-foreground/5"
+                    : "cursor-pointer hover:border-foreground/30"
                 )}
                 style={{
-                  backgroundColor: disabled ? 'rgba(255,255,255,0.05)' : `${colorConfig.hexValue}20`,
+                  backgroundColor: disabled ? 'hsl(var(--muted) / 0.3)' : `${colorConfig.hexValue}20`,
                   boxShadow: disabled ? 'none' : `0 0 20px ${colorConfig.hexValue}30, inset 0 0 20px ${colorConfig.hexValue}10`,
                 }}
               >
@@ -105,11 +105,11 @@ export function ColorButtons({ onColorSelect, buttonOrder, disabled = false, cla
                 <div className="relative flex flex-col items-center justify-center h-full">
                   <span
                     className="text-sm md:text-base font-bold"
-                    style={{ color: disabled ? 'rgba(255,255,255,0.3)' : colorConfig.hexValue }}
+                    style={{ color: disabled ? 'hsl(var(--muted-foreground))' : colorConfig.hexValue }}
                   >
                     {colorConfig.displayName}
                   </span>
-                  <span className="text-[10px] md:text-xs text-white/40 mt-1 font-mono">
+                  <span className="text-[10px] md:text-xs text-muted-foreground mt-1 font-mono">
                     {keyHint} / {letterHint}
                   </span>
                 </div>
@@ -127,7 +127,7 @@ export function ColorButtons({ onColorSelect, buttonOrder, disabled = false, cla
         </AnimatePresence>
       </div>
 
-      <div className="mt-3 text-center text-xs text-white/30 font-mono">
+      <div className="mt-3 text-center text-xs text-muted-foreground font-mono">
         KEYS: 1-{buttonOrder.length} | {buttonOrder.map(c => COLOR_LETTERS[c]).join(' ')}
       </div>
     </div>

@@ -13,10 +13,10 @@ export function StroopDisplay({ challenge, className }: StroopDisplayProps) {
     return (
       <div className={cn("flex items-center justify-center min-h-[200px]", className)}>
         <div className="text-center">
-          <div className="w-12 h-12 mx-auto mb-4 rounded-full border border-white/20 flex items-center justify-center">
+          <div className="w-12 h-12 mx-auto mb-4 rounded-full border border-foreground/20 flex items-center justify-center">
             <div className="w-3 h-3 rounded-full bg-purple-500 status-indicator" />
           </div>
-          <p className="text-white/40 text-sm uppercase tracking-widest">
+          <p className="text-muted-foreground text-sm uppercase tracking-widest">
             Awaiting Input
           </p>
         </div>
