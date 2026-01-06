@@ -80,19 +80,23 @@ export async function GET(request: Request) {
             updated_at: new Date().toISOString(),
           }, { onConflict: 'id' });
       } else {
-        // Email/password login - check if user has access in profiles table
+        // Email/password login - ensure profile exists
         const { data: profile } = await supabase
           .from('profiles')
           .select('role')
           .eq('id', userId)
           .maybeSingle();
 
-        // If no profile exists or role is 'user', deny access
-        if (!profile || profile.role === 'user') {
-          await supabase.auth.signOut();
-          return NextResponse.redirect(
-            `${origin}/access-denied?reason=premium_required`
-          );
+        // Create profile if it doesn't exist
+        if (!profile) {
+          await supabase
+            .from('profiles')
+            .insert({
+              id: userId,
+              email: userEmail,
+              role: 'user',
+              created_at: new Date().toISOString(),
+            });
         }
       }
 
