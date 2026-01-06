@@ -121,19 +121,19 @@ export default function PlayPage() {
               >
                 {/* Round */}
                 <div className="glass-card rounded-xl p-4">
-                  <div className="flex items-center gap-2 text-white/50 text-xs mb-1">
+                  <div className="flex items-center gap-2 text-muted-foreground text-xs mb-1">
                     <Activity className="w-3 h-3" />
                     ROUND
                   </div>
-                  <div className="text-2xl font-bold font-mono text-white">
-                    {game.currentRoundNumber}<span className="text-white/30">/{game.totalRounds}</span>
+                  <div className="text-2xl font-bold font-mono text-foreground">
+                    {game.currentRoundNumber}<span className="text-muted-foreground/50">/{game.totalRounds}</span>
                   </div>
                 </div>
 
                 {/* Streak + Speed */}
                 <div className="glass-card rounded-xl p-4">
                   <div className="flex items-center justify-between mb-1">
-                    <div className="flex items-center gap-2 text-white/50 text-xs">
+                    <div className="flex items-center gap-2 text-muted-foreground text-xs">
                       <Zap className="w-3 h-3 text-purple-500" />
                       STREAK
                     </div>
@@ -141,7 +141,7 @@ export default function PlayPage() {
                   </div>
                   <div className={cn(
                     "text-2xl font-bold font-mono",
-                    game.currentStreak >= 3 ? "text-purple-400" : "text-white"
+                    game.currentStreak >= 3 ? "text-purple-400" : "text-foreground"
                   )}>
                     {game.currentStreak}
                   </div>
@@ -149,7 +149,7 @@ export default function PlayPage() {
 
                 {/* Accuracy */}
                 <div className="glass-card rounded-xl p-4">
-                  <div className="text-white/50 text-xs mb-1">ACCURACY</div>
+                  <div className="text-muted-foreground text-xs mb-1">ACCURACY</div>
                   <div className="text-2xl font-bold font-mono text-cyan-400">
                     {accuracy}<span className="text-sm">%</span>
                   </div>
@@ -157,9 +157,9 @@ export default function PlayPage() {
 
                 {/* Reaction */}
                 <div className="glass-card rounded-xl p-4">
-                  <div className="text-white/50 text-xs mb-1">AVG REACTION</div>
-                  <div className="text-2xl font-bold font-mono text-white">
-                    {avgReactionTime}<span className="text-sm text-white/50">ms</span>
+                  <div className="text-muted-foreground text-xs mb-1">AVG REACTION</div>
+                  <div className="text-2xl font-bold font-mono text-foreground">
+                    {avgReactionTime}<span className="text-sm text-muted-foreground">ms</span>
                   </div>
                 </div>
               </motion.div>
@@ -183,13 +183,13 @@ export default function PlayPage() {
                     <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-purple-500/20 flex items-center justify-center neural-pulse">
                       <Brain className="w-8 h-8 text-purple-400" />
                     </div>
-                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                    <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
                       Cognitive Training
                     </h2>
-                    <p className="text-white/60 text-lg mb-2">
+                    <p className="text-muted-foreground text-lg mb-2">
                       Identify the <span className="text-cyan-400 font-semibold">INK COLOR</span>, not the word.
                     </p>
-                    <p className="text-white/40 text-sm mb-8">
+                    <p className="text-muted-foreground text-sm mb-8">
                       Train your neural pathways to override automatic responses.
                     </p>
                     <Button
@@ -221,15 +221,15 @@ export default function PlayPage() {
                     <div className="grid grid-cols-3 gap-4 mb-8">
                       <div className="glass-card rounded-xl p-4">
                         <div className="text-3xl font-bold text-cyan-400 font-mono">{accuracy}%</div>
-                        <div className="text-xs text-white/50 mt-1">ACCURACY</div>
+                        <div className="text-xs text-muted-foreground mt-1">ACCURACY</div>
                       </div>
                       <div className="glass-card rounded-xl p-4">
                         <div className="text-3xl font-bold text-purple-400 font-mono">{game.bestStreak}</div>
-                        <div className="text-xs text-white/50 mt-1">BEST STREAK</div>
+                        <div className="text-xs text-muted-foreground mt-1">BEST STREAK</div>
                       </div>
                       <div className="glass-card rounded-xl p-4">
-                        <div className="text-3xl font-bold text-white font-mono">{avgReactionTime}<span className="text-sm">ms</span></div>
-                        <div className="text-xs text-white/50 mt-1">AVG TIME</div>
+                        <div className="text-3xl font-bold text-foreground font-mono">{avgReactionTime}<span className="text-sm">ms</span></div>
+                        <div className="text-xs text-muted-foreground mt-1">AVG TIME</div>
                       </div>
                     </div>
 
@@ -242,7 +242,7 @@ export default function PlayPage() {
                         Train Again
                       </Button>
                       <Link href="/stats">
-                        <Button variant="outline" size="lg" className="border-white/20 text-white hover:bg-white/5">
+                        <Button variant="outline" size="lg" className="border-foreground/20 text-foreground hover:bg-foreground/5">
                           View Stats
                         </Button>
                       </Link>
@@ -271,7 +271,7 @@ export default function PlayPage() {
                         animate={{ opacity: 1, y: 0 }}
                         className="text-center mt-6 space-y-4"
                       >
-                        <p className="text-white/50 text-sm uppercase tracking-wider">Correct Answer</p>
+                        <p className="text-muted-foreground text-sm uppercase tracking-wider">Correct Answer</p>
                         <p className={cn("text-3xl font-bold", getColor(game.currentChallenge.inkColor).tailwindClass)}>
                           {getColor(game.currentChallenge.inkColor).displayName}
                         </p>

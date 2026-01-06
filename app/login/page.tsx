@@ -13,7 +13,7 @@ export default function LoginPage() {
           <div className="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center">
             <Brain className="w-6 h-6 text-purple-400" />
           </div>
-          <span className="text-xl font-bold text-white">Neural Trainer</span>
+          <span className="text-xl font-bold text-foreground">Neutral Trainer</span>
         </Link>
 
         {/* Login Card */}
@@ -22,9 +22,9 @@ export default function LoginPage() {
             <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#5865F2]/20 flex items-center justify-center">
               <Shield className="w-8 h-8 text-[#5865F2]" />
             </div>
-            <h1 className="text-2xl font-bold text-white mb-2">Welcome Back</h1>
-            <p className="text-white/60 text-sm">
-              Sign in to access the Neural Trainer
+            <h1 className="text-2xl font-bold text-foreground mb-2">Welcome Back</h1>
+            <p className="text-muted-foreground text-sm">
+              Sign in to access the Neutral Trainer
             </p>
           </div>
 
@@ -34,10 +34,10 @@ export default function LoginPage() {
           {/* Divider */}
           <div className="relative my-6">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-white/10"></div>
+              <div className="w-full border-t border-foreground/10"></div>
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-gray-900 px-2 text-white/40">or continue with email</span>
+              <span className="bg-background px-2 text-muted-foreground">or continue with email</span>
             </div>
           </div>
 
@@ -45,20 +45,20 @@ export default function LoginPage() {
           <EmailLoginForm />
 
           {/* Features */}
-          <div className="mt-6 pt-6 border-t border-white/10">
-            <h3 className="text-xs uppercase tracking-wider text-white/40 mb-3">
+          <div className="mt-6 pt-6 border-t border-foreground/10">
+            <h3 className="text-xs uppercase tracking-wider text-muted-foreground mb-3">
               What you get
             </h3>
             <ul className="space-y-2">
-              <li className="flex items-center gap-2 text-sm text-white/70">
+              <li className="flex items-center gap-2 text-sm text-foreground/80">
                 <Zap className="w-4 h-4 text-cyan-400" />
                 Unlimited training sessions
               </li>
-              <li className="flex items-center gap-2 text-sm text-white/70">
+              <li className="flex items-center gap-2 text-sm text-foreground/80">
                 <Zap className="w-4 h-4 text-cyan-400" />
                 Detailed performance analytics
               </li>
-              <li className="flex items-center gap-2 text-sm text-white/70">
+              <li className="flex items-center gap-2 text-sm text-foreground/80">
                 <Zap className="w-4 h-4 text-cyan-400" />
                 Progress tracking over time
               </li>
@@ -66,7 +66,7 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <p className="text-center text-white/40 text-xs mt-6">
+        <p className="text-center text-muted-foreground text-xs mt-6">
           Premium Discord members get instant access.{' '}
           <a
             href="https://discord.gg/your-server"
