@@ -209,31 +209,31 @@ export default function PlayPage() {
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
-                    className="glass-card glow-border rounded-2xl p-8 md:p-12 text-center"
+                    className="glass-card glow-border rounded-2xl p-5 md:p-12 text-center"
                   >
-                    <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-cyan-500/20 flex items-center justify-center">
-                      <Zap className="w-8 h-8 text-cyan-400" />
+                    <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-4 md:mb-6 rounded-full bg-cyan-500/20 flex items-center justify-center">
+                      <Zap className="w-6 h-6 md:w-8 md:h-8 text-cyan-400" />
                     </div>
-                    <h2 className="text-3xl md:text-4xl font-bold text-gradient-purple-cyan mb-8">
+                    <h2 className="text-2xl md:text-4xl font-bold text-gradient-purple-cyan mb-5 md:mb-8">
                       Training Complete
                     </h2>
 
-                    <div className="grid grid-cols-3 gap-4 mb-8">
-                      <div className="glass-card rounded-xl p-4">
-                        <div className="text-3xl font-bold text-cyan-400 font-mono">{accuracy}%</div>
-                        <div className="text-xs text-muted-foreground mt-1">ACCURACY</div>
+                    <div className="grid grid-cols-3 gap-2 md:gap-4 mb-5 md:mb-8">
+                      <div className="glass-card rounded-lg md:rounded-xl p-2 md:p-4">
+                        <div className="text-xl md:text-3xl font-bold text-cyan-400 font-mono">{accuracy}%</div>
+                        <div className="text-[10px] md:text-xs text-muted-foreground mt-1">ACCURACY</div>
                       </div>
-                      <div className="glass-card rounded-xl p-4">
-                        <div className="text-3xl font-bold text-purple-400 font-mono">{game.bestStreak}</div>
-                        <div className="text-xs text-muted-foreground mt-1">BEST STREAK</div>
+                      <div className="glass-card rounded-lg md:rounded-xl p-2 md:p-4">
+                        <div className="text-xl md:text-3xl font-bold text-purple-400 font-mono">{game.bestStreak}</div>
+                        <div className="text-[10px] md:text-xs text-muted-foreground mt-1">BEST STREAK</div>
                       </div>
-                      <div className="glass-card rounded-xl p-4">
-                        <div className="text-3xl font-bold text-foreground font-mono">{avgReactionTime}<span className="text-sm">ms</span></div>
-                        <div className="text-xs text-muted-foreground mt-1">AVG TIME</div>
+                      <div className="glass-card rounded-lg md:rounded-xl p-2 md:p-4">
+                        <div className="text-xl md:text-3xl font-bold text-foreground font-mono">{avgReactionTime}<span className="text-xs md:text-sm">ms</span></div>
+                        <div className="text-[10px] md:text-xs text-muted-foreground mt-1">AVG TIME</div>
                       </div>
                     </div>
 
-                    <div className="flex gap-3 justify-center">
+                    <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 justify-center">
                       <Button
                         onClick={() => game.startGame(30)}
                         size="lg"
@@ -242,7 +242,7 @@ export default function PlayPage() {
                         Train Again
                       </Button>
                       <Link href="/stats">
-                        <Button variant="outline" size="lg" className="border-foreground/20 text-foreground hover:bg-foreground/5">
+                        <Button variant="outline" size="lg" className="w-full sm:w-auto border-foreground/20 text-foreground hover:bg-foreground/5">
                           View Stats
                         </Button>
                       </Link>

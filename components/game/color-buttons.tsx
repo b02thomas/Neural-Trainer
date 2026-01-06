@@ -59,7 +59,7 @@ export function ColorButtons({ onColorSelect, buttonOrder, disabled = false, cla
 
   return (
     <div className={cn("w-full max-w-4xl mx-auto", className)}>
-      <div className={cn("grid gap-2 md:gap-3", gridCols)}>
+      <div className={cn("grid gap-1.5 md:gap-3", gridCols)}>
         <AnimatePresence mode="popLayout">
           {buttonOrder.map((colorName, index) => {
             const colorConfig = getColor(colorName);
@@ -78,7 +78,7 @@ export function ColorButtons({ onColorSelect, buttonOrder, disabled = false, cla
                 onClick={() => !disabled && onColorSelect(colorName)}
                 disabled={disabled}
                 className={cn(
-                  "relative h-16 md:h-20 rounded-xl font-semibold transition-all duration-200",
+                  "relative h-14 md:h-20 rounded-lg md:rounded-xl font-semibold transition-all duration-200",
                   "border border-foreground/10",
                   "focus:outline-none focus:ring-2 focus:ring-purple-500/50",
                   disabled
@@ -93,7 +93,7 @@ export function ColorButtons({ onColorSelect, buttonOrder, disabled = false, cla
                 {/* Glow effect on hover */}
                 <div
                   className={cn(
-                    "absolute inset-0 rounded-xl opacity-0 transition-opacity duration-200",
+                    "absolute inset-0 rounded-lg md:rounded-xl opacity-0 transition-opacity duration-200",
                     !disabled && "group-hover:opacity-100"
                   )}
                   style={{
@@ -104,12 +104,13 @@ export function ColorButtons({ onColorSelect, buttonOrder, disabled = false, cla
                 {/* Content */}
                 <div className="relative flex flex-col items-center justify-center h-full">
                   <span
-                    className="text-sm md:text-base font-bold"
+                    className="text-xs md:text-base font-bold"
                     style={{ color: disabled ? 'hsl(var(--muted-foreground))' : colorConfig.hexValue }}
                   >
                     {colorConfig.displayName}
                   </span>
-                  <span className="text-[10px] md:text-xs text-muted-foreground mt-1 font-mono">
+                  {/* Hide keyboard hints on mobile - not useful for touch */}
+                  <span className="hidden md:block text-xs text-muted-foreground mt-1 font-mono">
                     {keyHint} / {letterHint}
                   </span>
                 </div>
@@ -127,7 +128,8 @@ export function ColorButtons({ onColorSelect, buttonOrder, disabled = false, cla
         </AnimatePresence>
       </div>
 
-      <div className="mt-3 text-center text-xs text-muted-foreground font-mono">
+      {/* Hide keyboard hints on mobile */}
+      <div className="hidden md:block mt-3 text-center text-xs text-muted-foreground font-mono">
         KEYS: 1-{buttonOrder.length} | {buttonOrder.map(c => COLOR_LETTERS[c]).join(' ')}
       </div>
     </div>
