@@ -107,7 +107,7 @@ export function MegaMenu({ className }: MegaMenuProps) {
               <Brain className="w-5 h-5 text-purple-400" />
             </div>
             <span className="font-bold text-lg hidden sm:block">
-              <span className="text-gradient-purple-cyan">Neural</span>
+              <span className="text-gradient-purple-cyan">Neutral</span>
               <span className="text-muted-foreground ml-1">Trainer</span>
             </span>
           </Link>

@@ -6,7 +6,7 @@ import { Providers } from "@/components/providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Neural Trainer",
+  title: "Neutral Trainer",
   description: "Train your cognitive control with the Stroop Effect. Identify the ink color, not the word!",
 };
 
