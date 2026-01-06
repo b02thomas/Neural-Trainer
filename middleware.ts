@@ -90,10 +90,8 @@ export async function middleware(request: NextRequest) {
 
     const userRole = profile?.role || 'user';
     const isAdmin = userRole === 'admin';
-    const isPremium = userRole === 'premium' || hasPremiumMetadata;
-    const hasAccess = isAdmin || isPremium;
 
-    console.log('[Middleware] Role:', userRole, 'isAdmin:', isAdmin, 'hasAccess:', hasAccess);
+    console.log('[Middleware] Role:', userRole, 'isAdmin:', isAdmin);
 
     // Admin routes require admin role
     if (isAdminRoute && !isAdmin) {
@@ -103,13 +101,7 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(url);
     }
 
-    // Protected routes require admin or premium
-    if (isProtectedRoute && !hasAccess) {
-      const url = request.nextUrl.clone();
-      url.pathname = '/access-denied';
-      url.searchParams.set('reason', 'premium_required');
-      return NextResponse.redirect(url);
-    }
+    // Protected routes only require authentication (already checked above)
   }
 
   return supabaseResponse;
